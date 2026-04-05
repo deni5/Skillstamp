@@ -28,10 +28,15 @@ export class BlockchainService implements OnModuleInit {
 
   async onModuleInit() {
     this.connection = new Connection(this.config.get<string>('SOLANA_RPC_URL', 'https://api.devnet.solana.com'), 'confirmed');
-    const keypairPath = this.config.get('PLATFORM_KEYPAIR_PATH').replace('~', process.env.HOME);
-    const data = JSON.parse(fs.readFileSync(keypairPath, 'utf-8'));
-    this.platformKeypair = Keypair.fromSecretKey(Uint8Array.from(data));
-    this.logger.log(`Platform: ${this.platformKeypair.publicKey.toBase58()}`);
+    try {
+      const keypairPath = (this.config.get('PLATFORM_KEYPAIR_PATH') || '').replace('~', process.env.HOME || '');
+      const data = JSON.parse(fs.readFileSync(keypairPath, 'utf-8'));
+      this.platformKeypair = Keypair.fromSecretKey(Uint8Array.from(data));
+      this.logger.log(`Platform: ${this.platformKeypair.publicKey.toBase58()}`);
+    } catch (e) {
+      this.platformKeypair = Keypair.generate();
+      this.logger.warn(`Keypair not found — using ephemeral keypair: ${this.platformKeypair.publicKey.toBase58()}`);
+    }
     this.logger.log(`Solana: ${this.config.get('SOLANA_RPC_URL')}`);
   }
 
