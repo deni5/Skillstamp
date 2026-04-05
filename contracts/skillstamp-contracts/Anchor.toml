@@ -1,0 +1,21 @@
+[features]
+seeds = false
+skip-lint = false
+
+[programs.devnet]
+skillstamp_sbt       = "FLtUaxwAwCNPdnsw9PRUfDgTvT3enZxGxMTNW5XurujW"
+skillstamp_challenge = "AepAzQjMBoi4LYobGknc9G3iGPjzUijf3KTwG1CRXpLy"
+skillstamp_escrow    = "6VcbhukHioudUSq8utRPgHKJNgas7AJQestGZf7YbM7a"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+test = "npx ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+
+[toolchain]
+anchor_version = "1.0.0"
