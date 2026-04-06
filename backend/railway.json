@@ -5,7 +5,7 @@
     "buildCommand": "rm -rf dist && npm install && npm run build"
   },
   "deploy": {
-    "startCommand": "node --experimental-global-webcrypto dist/src/main",
+    "startCommand": "npm run start:prod",
     "restartPolicyType": "ON_FAILURE"
   }
 }
